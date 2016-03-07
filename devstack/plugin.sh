@@ -79,6 +79,10 @@ elif [[ "$1" == "stack" && "$2" == "post-config" ]]; then
 fi
 
 if [[ "$1" == "unstack" ]]; then
+    # Unmount any NFS shares mounted by Cinder
+    find ${DATA_DIR}/cinder/mnt -mindepth 1 -maxdepth 1 -type d \
+        | sudo xargs umount -l
+
     sudo rm -f ${STACK_NFS_CONF}
 
     # Reload to ensure (removed) config is reread, but don't
