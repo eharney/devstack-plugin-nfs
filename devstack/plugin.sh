@@ -35,10 +35,6 @@ function start_nfs {
     sudo service $NFS_SERVICE start
 }
 
-function stop_nfs {
-    sudo service $NFS_SERVICE stop
-}
-
 # is_nfs_enabled_for_service() - checks whether the OpenStack service
 # specified as an argument is enabled with NFS as its storage backend.
 function is_nfs_enabled_for_service {
@@ -77,12 +73,11 @@ elif [[ "$1" == "stack" && "$2" == "post-config" ]]; then
 fi
 
 if [[ "$1" == "unstack" ]]; then
-    stop_nfs
-fi
+    sudo rm -f ${STACK_NFS_CONF}
 
-if [[ "$1" == "clean" ]]; then
-    #cleanup_nfs
-    true
+    # Reload to ensure (removed) config is reread, but don't
+    # interfere with other NFS exports.
+    sudo service $NFS_SERVICE reload
 fi
 
 
