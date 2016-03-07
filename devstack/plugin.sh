@@ -18,7 +18,7 @@ function install_nfs {
         install_package nfs-common
         install_package nfs-kernel-server
     elif is_fedora; then
-        install_package nfs_utils
+        install_package nfs-utils
     fi
 }
 
