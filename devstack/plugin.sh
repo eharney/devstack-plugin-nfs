@@ -6,6 +6,8 @@ set +o xtrace
 NFS_EXPORT_DIR=${NFS_EXPORT_DIR:-/srv/nfs1}
 STACK_NFS_CONF=${STACK_NFS_CONF:-/etc/exports.d/stack_nfs}
 NFS_SHARES_CONF=${NFS_SHARES_CONF:-/etc/cinder/nfs-shares.conf}
+NFS_SECURE_FILE_PERMISSIONS=${NFS_SECURE_FILE_PERMISSIONS:-False}
+NFS_SECURE_FILE_OPERATIONS=${NFS_SECURE_FILE_OPERATIONS:-False}
 
 if is_ubuntu; then
     NFS_SERVICE=nfs-kernel-server
@@ -56,6 +58,10 @@ function is_nfs_enabled_for_service {
 function configure_cinder_nfs {
     echo "localhost:${NFS_EXPORT_DIR}" > ${NFS_SHARES_CONF}
     iniset $CINDER_CONF nfs nfs_shares_config ${NFS_SHARES_CONF}
+    iniset $CINDER_CONF nfs nas_secure_file_operations \
+        ${NFS_SECURE_FILE_OPERATIONS}
+    iniset $CINDER_CONF nfs nas_secure_file_permissions \
+        ${NFS_SECURE_FILE_PERMISSIONS}
 }
 
 
