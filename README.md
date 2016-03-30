@@ -1,4 +1,1 @@
-To use:
-
-enable_plugin devstack-plugin-nfs http://url_to/this_plugin/nfs
-
+Now lives at http://git.openstack.org/cgit/openstack/devstack-plugin-nfs/
